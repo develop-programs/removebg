@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "galary-8377a",
+  "private_key_id": "fcc703b16f7df5c19bf5390839cfcbcdcbc5c0c1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\n<YOUR_PRIVATE_KEY>\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-l5sgb@galary-8377a.iam.gserviceaccount.com",
+  "client_id": "117449857295053270307",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-l5sgb%40galary-8377a.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
