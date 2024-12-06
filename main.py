@@ -9,44 +9,11 @@ from PIL import Image
 from mangum import Mangum
 import requests
 import os
-from dotenv import load_dotenv
 import hashlib
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI()
 handler = Mangum(app)
-
-# Read configuration from environment variables
-project_id = os.getenv("PROJECT_ID")
-private_key_id = os.getenv("PRIVATE_KEY_ID")
-private_key = os.getenv("PRIVATE_KEY").replace("\\n", "\n")
-client_email = os.getenv("CLIENT_EMAIL")
-client_id = os.getenv("CLIENT_ID")
-auth_uri = os.getenv("AUTH_URI")
-token_uri = os.getenv("TOKEN_URI")
-auth_provider_x509_cert_url = os.getenv("AUTH_PROVIDER_X509_CERT_URL")
-client_x509_cert_url = os.getenv("CLIENT_X509_CERT_URL")
-
-# Construct the certificate dictionary
-cert = {
-    "type": "service_account",
-    "project_id": project_id,
-    "private_key_id": private_key_id,
-    "private_key": private_key,
-    "client_email": client_email,
-    "client_id": client_id,
-    "auth_uri": auth_uri,
-    "token_uri": token_uri,
-    "auth_provider_x509_cert_url": auth_provider_x509_cert_url,
-    "client_x509_cert_url": client_x509_cert_url,
-}
-
-# Initialize Firebase Admin SDK
-cred = credentials.Certificate(cert)
-firebase_admin.initialize_app(cred, {"storageBucket": f"{project_id}.appspot.com"})
 
 # Add CORS middleware
 app.add_middleware(
@@ -56,6 +23,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Initialize Firebase Admin SDK
+cert = credentials.Certificate("./firebase_Key.json")
+firebase_admin.initialize_app(cert, {"storageBucket": "galary-8377a.appspot.com"})
+
 
 @app.get("/")
 def read_root():
