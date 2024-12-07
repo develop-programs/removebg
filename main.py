@@ -11,6 +11,8 @@ import requests
 import os
 import hashlib
 
+import uvicorn
+
 # Initialize FastAPI app
 app = FastAPI()
 handler = Mangum(app)
@@ -75,7 +77,7 @@ async def remove_bg(
     # Check if the image has already been processed
     bucket = storage.bucket()
     blob = bucket.blob("removebg/" + filename)
-    if (blob.exists()):
+    if blob.exists():
         # Return the existing public URL
         public_url = blob.public_url
         return JSONResponse(
@@ -317,3 +319,7 @@ async def convert_image(
     public_url = blob.public_url
 
     return JSONResponse(content={"url": public_url}, status_code=200)
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
