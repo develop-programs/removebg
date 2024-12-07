@@ -25,8 +25,11 @@ app.add_middleware(
 )
 
 # Initialize Firebase Admin SDK
-cert = credentials.Certificate("./firebase_Key.json")
-firebase_admin.initialize_app(cert, {"storageBucket": "galary-8377a.appspot.com"})
+try:
+    cert = credentials.Certificate("firebase_Key.json")
+    firebase_admin.initialize_app(cert, {"storageBucket": "galary-8377a.appspot.com"})
+except Exception as e:
+    raise RuntimeError(f"Failed to initialize Firebase Admin SDK: {e}")
 
 
 @app.get("/")
@@ -72,7 +75,7 @@ async def remove_bg(
     # Check if the image has already been processed
     bucket = storage.bucket()
     blob = bucket.blob("removebg/" + filename)
-    if blob.exists():
+    if (blob.exists()):
         # Return the existing public URL
         public_url = blob.public_url
         return JSONResponse(
@@ -260,6 +263,11 @@ async def convert_image(
     filepath: str = Query(None),
     target_format: str = Query(...),
 ):
+    # Validate target format
+    valid_formats = ["JPEG", "PNG", "BMP", "GIF", "TIFF"]
+    if target_format.upper() not in valid_formats:
+        raise HTTPException(status_code=400, detail="Invalid target format")
+
     if file:
         # Read the uploaded image
         image_bytes = await file.read()
